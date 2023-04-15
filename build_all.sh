@@ -7,6 +7,14 @@ docker build --build-arg username=$github_username \
     -t $(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) .
 cd ../
 
+# Docs are built upon release build.
+build_type=release
+cd ./base
+docker build --build-arg username=$github_username \
+    --build-arg parent_image=murculus/kudu-${build_type} \
+    -t $(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) .
+cd ../
+
 cd ./docs
 docker build --build-arg parent_image=$(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) \
     -t $(whoami)/docs_$(uname -m):$(date +%Y%m%d) .
