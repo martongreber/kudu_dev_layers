@@ -13,7 +13,7 @@ Prerequisites, install VSCode and install the following extensions
 1. Setup SSH agent (https://kb.iu.edu/d/aeww), for example:
     - .bashrc <- ``eval `ssh-agent` && ssh-add ~/.ssh/id_ed25519``
     - .bash_logout <- kill $SSH_AGENT_PID
-1. Build the base image: `cd ./base && docker build --build-arg username=<github username> -t $(whoami)/base_$(uname -m):$(date +%Y%m%d) .`
+1. Build the base image: `cd ./base && docker build --build-arg username=<github username> -t $(whoami)/base_debug_$(uname -m):$(date +%Y%m%d) .`
 1. Open VSCode, click the Docker icon:
     - under 'IMAGES' look for your image $(whoami)/base
     - hit the dropdown, right click the latest tag then 'Run interactive'
@@ -33,10 +33,11 @@ The parent_image build argument can be specified to change the root image in the
 
 ```
 cd ./base 
+build_type=tsan
 docker build \
     --build-arg username=<github username> \
-    --build-arg parent_image=murculus/kudu-tsan \
-    -t \$(whoami)/tsan_\$(uname -m):\$(date +%Y%m%d) .
+    --build-arg parent_image=murculus/kudu-${build_type} \
+    -t \$(whoami)/tsan_${build_type}_$(uname -m):\$(date +%Y%m%d) .
 ```
 
 ## Fork based development workflow
@@ -59,12 +60,13 @@ Then we can just add all the necessary setup steps to have everything setup for 
 Now we need to build it. First we need to make sure that the base image is built, then we build on top of that:
 ```
 cd ./base
+build_type=release
 docker build --build-arg username=<github username> \
-    --build-arg parent_image=murculus/kudu-release \
-    -t $(whoami)/base_$(uname -m):$(date +%Y%m%d) .
+    --build-arg parent_image=murculus/kudu-${build_type} \
+    -t $(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) .
 cd ../
 cd ./docs
-docker build --build-arg parent_image=$(whoami)/base_$(uname -m):$(date +%Y%m%d) \
+docker build --build-arg parent_image=$(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) \
     -t $(whoami)/docs_$(uname -m):$(date +%Y%m%d) .
 cd ../
 ```
