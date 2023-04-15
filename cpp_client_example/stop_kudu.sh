@@ -1,0 +1,1 @@
+$KUDU_HOME/src/kudu/scripts/stop_kudu.sh && sudo rm -rf /tmp/cluster/*
