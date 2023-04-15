@@ -71,4 +71,30 @@ docker build --build-arg parent_image=$(whoami)/base_${build_type}_$(uname -m):$
 cd ../
 ```
 
-## Container extensions
+## Recommennded extensions
+Once you are attached to a container, you can install extensions inside. Extensions are bound to iamge names, 
+the next time you start the image, all the previously installed extensions will be installed on startup.
+You can check this list: CMD + SHIFT + P -> 'Dev Containers: Open Attached Container Configuration File' 
+
+### General
+- eamodio.gitlens
+    * Inline git blame, git hist
+    * Commit graph
+- zxh404.vscode-proto3
+    * proto file language support
+### C++
+- ms-vscode.cpptools
+- twxs.cmake
+    * CMake language support
+- matepek.vscode-catch2-test-adapter
+    * test runner
+### Java
+- redhat.java
+    * language support
+    * probably need to add `java/**/bin` to your gitignore
+- vscjava.vscode-java-debug
+    * debugger
+- vscjava.vscode-java-test
+    * test runner
+### Python
+- ms-python.python
