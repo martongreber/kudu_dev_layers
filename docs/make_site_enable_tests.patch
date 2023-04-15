@@ -1,0 +1,10 @@
+--- a/docs/support/scripts/make_site.sh
++++ b/docs/support/scripts/make_site.sh
+@@ -96,7 +96,6 @@ fi
+ $SOURCE_ROOT/build-support/enable_devtoolset.sh \
+     $SOURCE_ROOT/thirdparty/installed/common/bin/cmake \
+     $CMAKE_GENERATOR \
+-    -DNO_TESTS=1 \
+     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+     $DOXYGEN_FLAGS \
+     $SOURCE_ROOT
