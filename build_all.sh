@@ -14,6 +14,12 @@ docker build --build-arg parent_image=$(whoami)/base_${build_type}_$(uname -m):$
     -t $(whoami)/${layer}_$(uname -m):$(date +%Y%m%d) .
 cd ../
 
+layer=python_client
+cd ./$layer
+docker build --build-arg parent_image=$(whoami)/base_${build_type}_$(uname -m):$(date +%Y%m%d) \
+    -t $(whoami)/${layer}_$(uname -m):$(date +%Y%m%d) .
+cd ../
+
 # Docs are built on top of release build.
 # build_type=release
 # layer=base
