@@ -18,6 +18,9 @@ build_layer() {
     cd ../
 }
 
+DIR="$(dirname "${BASH_SOURCE[0]}")"
+cd $DIR
+
 # For testing purpose
 github_username=martongreber
 # Most of the time for dev purposes the debug build types are just enough.
