@@ -26,4 +26,4 @@ WORKDIR /apache/dev/git/kudu
 COPY make_site_enable_tests.patch make_site_enable_tests.patch
 RUN git apply make_site_enable_tests.patch
 RUN rm make_site_enable_tests.patch
-RUN ./docs/support/scripts/make_site.sh --no-doxygen --no-javadoc --force
+# RUN ./docs/support/scripts/make_site.sh --no-doxygen --no-javadoc --force

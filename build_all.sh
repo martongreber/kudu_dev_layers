@@ -18,28 +18,37 @@ build_layer() {
     cd ../
 }
 
-DIR="$(dirname "${BASH_SOURCE[0]}")"
-cd $DIR
+main() {
+    DIR="$(dirname "${BASH_SOURCE[0]}")"
+    cd $DIR
 
-# For testing purpose
-github_username=martongreber
-# Most of the time for dev purposes the debug build types are just enough.
-# First build the base
-build_type=debug
-build_base $build_type
+    # For testing purpose
+    github_username=martongreber
+    # Most of the time for dev purposes the debug build types are just enough.
+    # First build the base
+    build_type=debug
+    build_base $build_type
 
-# Indepent layers which only build on top of base
-independent_layers=("cpp_client_example" \
-                    "python_client")
-for layer in ${independent_layers[@]}; do
+    # Indepent layers which only build on top of base
+    independent_layers=("cpp_client_example" \
+                        "python_client")
+    for layer in ${independent_layers[@]}; do
+        build_layer $build_type $layer
+    done
+
+
+    # Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the 
+    # different CMake config which is used in make_site.sh
+
+    build_type=release
+    build_base $build_type
+    layer=docs
     build_layer $build_type $layer
-done
+}
 
 
-# Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the 
-# different CMake config which is used in make_site.sh
+SOURCE_ROOT=$(cd $(dirname "$BASH_SOURCE"); pwd)
+cd $SOURCE_ROOT
 
-# build_type=release
-# build_base $build_type
-# layer=docs
-# build_layer $build_type $build_layer
+DATE=`date +%d-%m-%y` 
+main > /tmp/build-dev-layers-$DATE.log 2>&1 
