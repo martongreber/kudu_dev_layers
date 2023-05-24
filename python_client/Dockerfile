@@ -26,6 +26,8 @@ RUN pip install virtualenv
 COPY build.sh build.sh
 COPY switch.sh switch.sh
 COPY pre_gerrit.sh pre_gerrit.sh
+COPY start_kudu.sh start_kudu.sh
+COPY stop_kudu.sh stop_kudu.sh
 
 WORKDIR /apache/dev/git/kudu/python
 
