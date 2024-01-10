@@ -54,18 +54,28 @@ main() {
         build_layer $build_type $layer
     done
 
-    # Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the 
+    # Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the
     # different CMake config which is used in make_site.sh
 
     build_type=release
     build_base $build_type
     layer=docs
     build_layer $build_type $layer
+
+    # Build the rest of the build type as they are
+    build_types=("release" \
+                "asan" \
+                "tsan")
+    for build_type in ${build_types[@]}; do
+        build_base $build_type
+    done
+
+    echo "Done."
 }
 
 
 SOURCE_ROOT=$(cd $(dirname "$BASH_SOURCE"); pwd)
 cd $SOURCE_ROOT
 
-DATE=`date +%d-%m-%y` 
-main > /tmp/build-dev-layers-$DATE.log 2>&1 
+DATE=`date +%d-%m-%y`
+main > /tmp/build-dev-layers-$DATE.log 2>&1

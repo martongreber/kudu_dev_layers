@@ -14,7 +14,7 @@ For example:
 cd /apache/dev/git/kudu/build/release/site && ./site_tool jekyll build
 
 rm -rf /apache/dev/git/martongreber.github.io/*
-cp -R /apache/dev/git/kudu/build/release/site/_site/* /apache/dev/git/martongreber.github.io/
+cp -R /apache/dev/git/kudu/_site/* /apache/dev/git/martongreber.github.io/
 
 cd /apache/dev/git/martongreber.github.io/
 git add .
@@ -23,3 +23,11 @@ git push -f
 
 cd /apache/dev/git/kudu/
 ```
+
+
+Working on gh-pages:
+"root@9a0200e384e0 /apache/dev/git/kudu (gh-pages) $ ./site_tool jekyll serve
+ERROR:  Error installing bundler:
+        bundler requires Ruby version >= 3.0.0. The current ruby version is 2.6.6.146."
+
+https://gorails.com/setup/ubuntu/18.04
