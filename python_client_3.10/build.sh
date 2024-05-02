@@ -20,6 +20,7 @@ pushd $SOURCE_ROOT/python
 setup_env_3() {
     # Create a sane test environment.
     rm -Rf $KUDU_BUILD/py_env
+    rm -rf /tmp/kudu*
     virtualenv -p python3 $KUDU_BUILD/py_env
     source $KUDU_BUILD/py_env/bin/activate
 
@@ -59,7 +60,7 @@ setup_env_3() {
     # so we must pass in the current values of CC and CXX.
     #
     # See https://github.com/numpy/numpy/releases/tag/v1.16.0rc1 for more details.
-    CC=$CLANG CXX=$CLANG++ pip $PIP_FLAGS install $PIP_INSTALL_FLAGS 'numpy <1.16.0'
+    CC=$CLANG CXX=$CLANG++ pip $PIP_FLAGS install $PIP_INSTALL_FLAGS 'numpy==1.23.4'
 
     # We've got a new pip and new setuptools. We can now install the rest of the
     # Python client's requirements.
@@ -102,6 +103,7 @@ build_bindings_3(){
 setup_env_2() {
        # Create a sane test environment.
     rm -Rf $KUDU_BUILD/py_env
+    rm -rf /tmp/kudu*
     virtualenv $KUDU_BUILD/py_env
 
     source $KUDU_BUILD/py_env/bin/activate
@@ -184,10 +186,10 @@ build_bindings_2(){
 }
 
 
-if [ $1 == "3" ]; then
-    $KUDU_HOME/switch.sh 3
+if [[ $1 =~ ^3\..* ]]; then
+    $KUDU_HOME/switch.sh $1
     echo
-    echo Building and testing python 3.
+    echo Building and testing python $1
     echo ------------------------------------------------------------
     setup_env_3
     build_bindings_3

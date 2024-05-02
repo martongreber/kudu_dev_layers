@@ -43,26 +43,27 @@ main() {
     DIR="$(dirname "${BASH_SOURCE[0]}")"
     cd $DIR
 
-    # First build the base
+    ## First build the base
     build_type=debug
     build_base $build_type
 
-    # Indepent layers which only build on top of base
+    ## Indepent layers which only build on top of base
     independent_layers=("cpp_client_example" \
                         "python_client")
+    # independent_layers=("python_client_3.10")
     for layer in ${independent_layers[@]}; do
         build_layer $build_type $layer
     done
 
-    # Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the
-    # different CMake config which is used in make_site.sh
+    ## Docs are built on top of release build. Takes a couple mins as the cache misses alot because of the
+    ## different CMake config which is used in make_site.sh
 
     build_type=release
     build_base $build_type
     layer=docs
     build_layer $build_type $layer
 
-    # Build the rest of the build type as they are
+    ## Build the rest of the build type as they are
     build_types=("release" \
                 "asan" \
                 "tsan")
@@ -78,4 +79,6 @@ SOURCE_ROOT=$(cd $(dirname "$BASH_SOURCE"); pwd)
 cd $SOURCE_ROOT
 
 DATE=`date +%d-%m-%y`
-main > /tmp/build-dev-layers-$DATE.log 2>&1
+logfile=/tmp/build-dev-layers-$DATE.log
+echo $logfile
+main > $logfile 2>&1
